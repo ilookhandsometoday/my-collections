@@ -5,3 +5,5 @@ E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\
 E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.csproj.CopyComplete
 E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.dll
 E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.pdb
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\bin\Release\DeepCloning.pdb
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.csprojAssemblyReference.cache

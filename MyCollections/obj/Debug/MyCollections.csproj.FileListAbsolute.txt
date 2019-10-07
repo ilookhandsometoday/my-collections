@@ -6,3 +6,4 @@ E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Debug\My
 E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Debug\MyCollections.csproj.CopyComplete
 E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Debug\MyCollections.dll
 E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Debug\MyCollections.pdb
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\bin\Debug\DeepCloning.pdb
