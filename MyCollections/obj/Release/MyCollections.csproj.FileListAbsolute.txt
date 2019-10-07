@@ -1,0 +1,7 @@
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\bin\Release\MyCollections.dll
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\bin\Release\MyCollections.pdb
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\bin\Release\DeepCloning.dll
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.csproj.CoreCompileInputs.cache
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.csproj.CopyComplete
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.dll
+E:\Устрой погром(githubbed)\MyCollections\MyCollections\obj\Release\MyCollections.pdb
