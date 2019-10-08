@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IdealBinaryTree.cs" />
+    <Compile Include="InOrderEnumerator.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

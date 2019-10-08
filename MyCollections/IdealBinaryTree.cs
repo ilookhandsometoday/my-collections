@@ -8,27 +8,29 @@ using DeepCloning;
 namespace MyCollections
 {
     [Serializable]
-    public class IdealBinaryTree<T> : ICloneable
+    public class IdealBinaryTree<T> : ICloneable, ICollection<T>
     {
-        private TreeNode<T> root;
+        internal TreeNode<T> _root;
+        private int _count;
+        private int _capacity;
 
         public int Count
         {
-            get;
-            set;
+            get {return this._count; }
+            private set { this._count = value;}
         }
 
         public int Capacity
         {
-            get;
-            set;
+            get { return this._capacity; }
+            set { this._capacity = value; }
         }
 
         public IdealBinaryTree()
         {
             this.Capacity = 0;
             this.Count = 0;
-            this.root = null;
+            this._root = null;
         }
 
         public IdealBinaryTree(int capacity)
@@ -44,14 +46,14 @@ namespace MyCollections
             }
 
             this.Count = 0;
-            this.root = TreeNode<T>.ConstructIdealTree(this.Capacity);
+            this._root = TreeNode<T>.ConstructIdealTree(this.Capacity);
         }
 
         public IdealBinaryTree(IdealBinaryTree<T> c)
         {
             this.Capacity = c.Capacity;
             this.Count = c.Count;
-            this.root = SerializationCloning.Clone(c.root);
+            this._root = SerializationCloning.Clone(c._root);
         }
 
         public object Clone()
