@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DeepCloning;
 
 namespace MyCollections
 {
@@ -61,6 +62,33 @@ namespace MyCollections
                 Console.WriteLine("Error: Size of the tree cannot be < 0");
             }
             return root;
+        }
+
+        public static void ToListInOrder(TreeNode<T> root, ref List<T> valueStorage, ref int elementsToTransfer)
+        {
+            if (elementsToTransfer > 0)
+            {
+                if (root == null)
+                {
+                    valueStorage = new List<T>();
+                    return;
+                }
+
+                if (root.Left != null && elementsToTransfer > 1)
+                {
+                    int elementsToTransferLeft = elementsToTransfer / 2;
+                    TreeNode<T>.ToListInOrder(root.Left, ref valueStorage, ref elementsToTransferLeft);
+                }
+
+                valueStorage.Add(SerializationCloning.Clone(root.Data));
+                elementsToTransfer--;
+
+                if (root.Right != null && elementsToTransfer > 1)
+                {
+                    int elementsToTransferRight = elementsToTransfer;
+                    TreeNode<T>.ToListInOrder(root.Right, ref valueStorage, ref elementsToTransferRight);
+                }
+            }
         }
     }
 }

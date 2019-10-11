@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using DeepCloning;
 namespace MyCollections
 {
     [Serializable]
-    public class IdealBinaryTree<T> : ICloneable, ICollection<T>
+    public class IdealBinaryTree<T> : ICloneable, IEnumerable<T>
     {
         internal TreeNode<T> _root;
         private int _count;
@@ -59,6 +60,17 @@ namespace MyCollections
         public object Clone()
         {
             return new IdealBinaryTree<T>(this);
+
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new InOrderEnumerator<T>(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

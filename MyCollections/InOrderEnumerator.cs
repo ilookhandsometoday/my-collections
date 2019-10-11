@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,22 +8,46 @@ using DeepCloning;
 
 namespace MyCollections
 {
-    public class InOrderEnumerator<T>: IEnumerator<T>
+    public class InOrderEnumerator<T> : IEnumerator<T>
     {
-        private Queue<TreeNode<T>> treeAsQueue;
+        private int currentIndex;
+        readonly List<T> treeAsList;
         public InOrderEnumerator(IdealBinaryTree<T> tree)
         {
-            treeAsQueue = new Queue<TreeNode<T>>();
-            if (tree == null)
-            {
-                throw new NullReferenceException(); 
-            }
-            treeAsQueue.Enqueue(tree._root);
+            this.currentIndex = -1;
+            this.treeAsList = new List<T>();
+            int treeCount = tree.Count;
+            TreeNode<T>.ToListInOrder(tree._root, ref this.treeAsList, ref treeCount);
         }
 
-        public T Current
+        public object Current
         {
-            get { return SerializationCloning.Clone(treeAsQueue.Peek()).Data; }
+            get
+            {
+                T currentElement = this.treeAsList[currentIndex];
+                return SerializationCloning.Clone(currentElement);
+            }
+        }
+
+        T IEnumerator<T>.Current
+        {
+            get
+            {
+                T currentElement = this.treeAsList[currentIndex];
+                return SerializationCloning.Clone(currentElement);
+            }
+        }
+
+        public void Dispose() {}
+
+        public bool MoveNext()
+        {
+            return this.currentIndex++ < this.treeAsList.Count - 1;
+        }
+
+        public void Reset()
+        {
+            this.currentIndex = -1;
         }
     }
 }
