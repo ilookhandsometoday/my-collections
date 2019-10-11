@@ -66,14 +66,14 @@ namespace MyCollections
 
         public static void ToListInOrder(TreeNode<T> root, ref List<T> valueStorage, ref int elementsToTransfer)
         {
+            if (root == null)
+            {
+                valueStorage = new List<T>();
+                return;
+            }
+
             if (elementsToTransfer > 0)
             {
-                if (root == null)
-                {
-                    valueStorage = new List<T>();
-                    return;
-                }
-
                 if (root.Left != null && elementsToTransfer > 1)
                 {
                     int elementsToTransferLeft = elementsToTransfer / 2;

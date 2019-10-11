@@ -72,5 +72,10 @@ namespace MyCollections
         {
             return this.GetEnumerator();
         }
+
+        public void Add(T element)
+        {
+            
+        }
     }
 }

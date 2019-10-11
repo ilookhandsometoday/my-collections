@@ -20,7 +20,7 @@ namespace MyCollections
             TreeNode<T>.ToListInOrder(tree._root, ref this.treeAsList, ref treeCount);
         }
 
-        public object Current
+        object IEnumerator.Current
         {
             get
             {
@@ -29,7 +29,7 @@ namespace MyCollections
             }
         }
 
-        T IEnumerator<T>.Current
+        public T Current
         {
             get
             {
