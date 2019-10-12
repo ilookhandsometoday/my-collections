@@ -75,7 +75,7 @@ namespace MyCollections
                 for (TreeNode<T> currentElement = stack.Pop(); currentElement.WasDataModified; currentElement = currentElement.Left)
                 {
                     yield return currentElement.Data;
-                    if (!currentElement.Right.WasDataModified)
+                    if (currentElement.Right.WasDataModified)
                     {
                         stack.Push(currentElement.Right);
                     }
