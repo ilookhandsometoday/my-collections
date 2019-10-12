@@ -72,10 +72,10 @@ namespace MyCollections
 
             while (stack.Count > 0)
             {
-                for (TreeNode<T> currentElement = stack.Pop(); currentElement != null; currentElement = currentElement.Left)
+                for (TreeNode<T> currentElement = stack.Pop(); !currentElement.WasDataModified; currentElement = currentElement.Left)
                 {
                     yield return currentElement.Data;
-                    if (currentElement.Right != null)
+                    if (!currentElement.Right.WasDataModified)
                     {
                         stack.Push(currentElement.Right);
                     }
