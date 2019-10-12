@@ -81,11 +81,24 @@ namespace MyCollections
                     }
                 }
             }
+
+            yield break;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        public void Add(T element)
+        {
+            if(this.Count == 0)
+            {
+                _root.Data = element;
+                return;
+            }
+
+
         }
     }
 }
