@@ -90,5 +90,21 @@ namespace MyCollections
                 }
             }
         }
+
+        public void Add(T element, int preOrderPosition)
+        {
+            if (this == null)
+            {
+                Console.WriteLine("Error: The tree you are trying to add to is null");
+            }
+
+            if (preOrderPosition == 0)
+            {
+                this.Data = element;
+                return;
+            }
+
+
+        }
     }
 }

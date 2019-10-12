@@ -60,22 +60,32 @@ namespace MyCollections
         public object Clone()
         {
             return new IdealBinaryTree<T>(this);
-
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new InOrderEnumerator<T>(this);
+            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+            if (this._root == null)
+            {
+                stack.Push(this._root);
+            }
+
+            while (stack.Count > 0)
+            {
+                for (TreeNode<T> currentElement = stack.Pop(); currentElement != null; currentElement = currentElement.Left)
+                {
+                    yield return currentElement.Data;
+                    if (currentElement.Right != null)
+                    {
+                        stack.Push(currentElement.Right);
+                    }
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-        public void Add(T element)
-        {
-            
         }
     }
 }
