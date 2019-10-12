@@ -91,14 +91,49 @@ namespace MyCollections
         }
 
         public void Add(T element)
-        {
-            if(this.Count == 0)
+        { 
+            if(this.Count == this.Capacity)
             {
-                _root.Data = element;
+                this.Capacity += 1; // in case Capacity is 0;
+                this.Capacity *= 2;
+            }
+
+            if (this.Count == 0)
+            {
+                this. _root.Data = element;
                 return;
             }
 
+            TreeNode<T> currentNode = this._root;
+            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
+            queue.Enqueue(currentNode);
 
+            while(queue.Count > 0) // looking for a place to insert the element
+            {
+                currentNode = queue.Dequeue();
+
+                if (!currentNode.Left.WasDataModified)
+                {
+                    currentNode.Left.Data = element;
+                    this.Count++;
+                    return;
+                }
+                else
+                {
+                    queue.Enqueue(currentNode.Left);
+                }
+
+                if (!currentNode.Right.WasDataModified)
+                {
+                    currentNode.Right.Data = element;
+                    this.Count++;
+                    return;
+                }
+                else
+                {
+                    queue.Enqueue(currentNode.Right);
+                }
+            }
         }
     }
 }

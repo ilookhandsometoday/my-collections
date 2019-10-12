@@ -10,9 +10,9 @@ namespace MyCollections
 {
     public class InOrderEnumerator<T> : IEnumerator<T>
     {
-        //this class is here just to demonstrate that I can in fact implement an IEnumerator interface explicitly
+        // this class is here just to demonstrate that I can in fact implement an IEnumerator interface explicitly
         private int currentIndex;
-        readonly List<T> treeAsList;
+        private List<T> treeAsList;
         public InOrderEnumerator(IdealBinaryTree<T> tree)
         {
             this.currentIndex = -1;

@@ -10,12 +10,20 @@ namespace MyCollections
     [Serializable]
     internal class TreeNode<T>
     {
+        
         private T data;
         private TreeNode<T> left;
         private TreeNode<T> right;
 
+        internal bool WasDataModified // helper property to make Add() in IdealBinaryTree class possible;
+        {                             // as Capacity has to be implemented, a way to judge if a node exists
+            get;                      // or not is required (from the user's perspective a node could be a leaf)
+            set;                      // while on the inside it could be not a leaf for a certain combination
+        }                             // of Count and Capacity
+
         public TreeNode()
         {
+            this.WasDataModified = false;
             this.Data = default(T);
             this.Left = null;
             this.Right = null;
@@ -23,6 +31,7 @@ namespace MyCollections
 
         public TreeNode(T d)
         {
+            this.WasDataModified = true;
             this.Data = d;
             this.Left = null;
             this.Right = null;
@@ -31,7 +40,11 @@ namespace MyCollections
         public T Data
         {
             get { return this.data; }
-            set { this.data = value; }
+            set
+            {
+                this.data = value;
+                this.WasDataModified = true;
+            }
         }
 
         public TreeNode<T> Left
@@ -91,20 +104,24 @@ namespace MyCollections
             }
         }
 
-        public void Add(T element, int preOrderPosition)
+        public int Height
         {
-            if (this == null)
+            get
             {
-                Console.WriteLine("Error: The tree you are trying to add to is null");
+                int heightLeft = 0;
+                int heightRight = 0;
+                if (this.Left != null)
+                {
+                    heightLeft = this.Left.Height;
+                }
+
+                if (this.Right != null)
+                {
+                    heightRight = this.Right.Height;
+                }
+
+                return Math.Max(heightLeft, heightRight) + 1;
             }
-
-            if (preOrderPosition == 0)
-            {
-                this.Data = element;
-                return;
-            }
-
-
         }
     }
 }
