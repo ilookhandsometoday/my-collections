@@ -102,6 +102,7 @@ namespace MyCollections
             {
                 this._root.Data = element;
                 this._root.WasDataModified = true;
+                this.Count++;
                 return;
             }
 
