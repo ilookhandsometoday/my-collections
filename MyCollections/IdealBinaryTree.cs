@@ -24,35 +24,51 @@ namespace MyCollections
         public int Capacity
         {
             get { return this._capacity; }
-            set { this._capacity = value; }
+            set
+            {
+                if (value < 0)
+                {
+                    Console.WriteLine("Error: Capacity cannot be < 0");
+                    return;
+                }
+
+                if(value < this._capacity)
+                {
+                    this._capacity = value;
+                }
+
+                if (value > this._capacity)
+                {
+
+                }
+            }
         }
 
         public IdealBinaryTree()
         {
-            this.Capacity = 0;
+            this._capacity = 0;
             this.Count = 0;
             this._root = null;
         }
 
         public IdealBinaryTree(int capacity)
         {
+            this.Count = 0;
             if (capacity >= 0)
             {
-                this.Capacity = capacity;
+                this._capacity = capacity;
             }
             else
             {
                 Console.WriteLine("Error: Capacity cannot be < 0. Capacity will be set to 0");
-                this.Capacity = 0;
             }
 
-            this.Count = 0;
             this._root = TreeNode<T>.ConstructIdealTree(this.Capacity);
         }
 
         public IdealBinaryTree(IdealBinaryTree<T> c)
         {
-            this.Capacity = c.Capacity;
+            this._capacity = c.Capacity;
             this.Count = c.Count;
             this._root = SerializationCloning.Clone(c._root);
         }
@@ -62,7 +78,34 @@ namespace MyCollections
             return new IdealBinaryTree<T>(this);
         }
 
-        public IEnumerator<T> GetEnumerator()
+        private IEnumerable<T> LevelOrderTraversal()
+        {
+            if (this._root == null)
+            {
+                yield break;
+            }
+
+            TreeNode<T> currentNode = new TreeNode<T>();
+            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
+            queue.Enqueue(this._root);
+            while (queue.Count > 0)
+            {
+                currentNode = queue.Dequeue();
+                yield return currentNode.Data;
+
+                if (currentNode.Left != null && !currentNode.Left.WasDataModified)
+                {
+                    queue.Enqueue(currentNode.Left);
+                }
+
+                if (currentNode.Left != null && !currentNode.Right.WasDataModified)
+                {
+                    queue.Enqueue(currentNode.Right);
+                }
+            }
+        }
+
+        public IEnumerator<T> GetEnumerator() // preorder
         {
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
             if (this._root != null)
@@ -138,6 +181,25 @@ namespace MyCollections
                     queue.Enqueue(currentNode.Right);
                 }
             }
+        }
+
+        public void AddRange(List<T> args)
+        {
+            foreach(T element in args)
+            {
+                this.Add(element);
+            }
+        }
+
+        public Queue<T> ToQueueLevelOrder()
+        {
+            Queue<T> queue = new Queue<T>();
+            foreach(T element in this.LevelOrderTraversal())
+            {
+                queue.Enqueue(element);
+            }
+
+            return queue;
         }
     }
 }

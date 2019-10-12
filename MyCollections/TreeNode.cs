@@ -76,33 +76,6 @@ namespace MyCollections
             return root;
         }
 
-        public static void ToListInOrder(TreeNode<T> root, ref List<T> valueStorage, ref int elementsToTransfer)
-        {
-            if (root == null)
-            {
-                valueStorage = new List<T>();
-                return;
-            }
-
-            if (elementsToTransfer > 0)
-            {
-                if (root.Left != null && elementsToTransfer > 1)
-                {
-                    int elementsToTransferLeft = elementsToTransfer / 2;
-                    TreeNode<T>.ToListInOrder(root.Left, ref valueStorage, ref elementsToTransferLeft);
-                }
-
-                valueStorage.Add(SerializationCloning.Clone(root.Data));
-                elementsToTransfer--;
-
-                if (root.Right != null && elementsToTransfer > 1)
-                {
-                    int elementsToTransferRight = elementsToTransfer;
-                    TreeNode<T>.ToListInOrder(root.Right, ref valueStorage, ref elementsToTransferRight);
-                }
-            }
-        }
-
         public int Height
         {
             get
