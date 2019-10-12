@@ -65,7 +65,7 @@ namespace MyCollections
         public IEnumerator<T> GetEnumerator()
         {
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            if (this._root == null)
+            if (this._root != null)
             {
                 stack.Push(this._root);
             }
