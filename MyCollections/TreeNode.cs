@@ -31,7 +31,7 @@ namespace MyCollections
 
         public TreeNode(T d)
         {
-            this.WasDataModified = true;
+            this.WasDataModified = false;
             this.Data = d;
             this.Left = null;
             this.Right = null;
@@ -43,7 +43,6 @@ namespace MyCollections
             set
             {
                 this.data = value;
-                this.WasDataModified = true;
             }
         }
 

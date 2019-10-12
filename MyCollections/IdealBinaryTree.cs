@@ -100,7 +100,8 @@ namespace MyCollections
 
             if (this.Count == 0)
             {
-                this. _root.Data = element;
+                this._root.Data = element;
+                this._root.WasDataModified = true;
                 return;
             }
 
@@ -115,6 +116,7 @@ namespace MyCollections
                 if (!currentNode.Left.WasDataModified)
                 {
                     currentNode.Left.Data = element;
+                    currentNode.Left.WasDataModified = true;
                     this.Count++;
                     return;
                 }
@@ -126,6 +128,7 @@ namespace MyCollections
                 if (!currentNode.Right.WasDataModified)
                 {
                     currentNode.Right.Data = element;
+                    currentNode.Left.WasDataModified = true;
                     this.Count++;
                     return;
                 }
