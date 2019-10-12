@@ -104,9 +104,9 @@ namespace MyCollections
                 return;
             }
 
-            TreeNode<T> currentNode = this._root;
+            TreeNode<T> currentNode = new TreeNode<T>();
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            queue.Enqueue(currentNode);
+            queue.Enqueue(this._root);
 
             while(queue.Count > 0) // looking for a place to insert the element
             {
