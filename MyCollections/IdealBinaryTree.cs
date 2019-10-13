@@ -11,53 +11,15 @@ namespace MyCollections
     [Serializable]
     public class IdealBinaryTree<T> : ICloneable, ICollection<T>
     {
-        internal TreeNode<T> _root;
+        internal TreeNode<T> Root;
         private int _count;
         private int _capacity;
-
-        public int Count
-        {
-            get { return this._count; }
-            private set { this._count = value; }
-        }
-
-        public int Capacity
-        {
-            get { return this._capacity; }
-            set
-            {
-                if (value < 0)
-                {
-                    Console.WriteLine("Error: Capacity cannot be < 0");
-                    return;
-                }
-
-                if (value >= Count) //setting capacity to less than count won't work
-                {
-                    this._capacity = value;
-                    List<T> elements = this.PreOrderTraversal().ToList();
-                    Queue<T> elementsQueue = new Queue<T>(elements);
-                    this.Count = elementsQueue.Count;
-                    this._root = TreeNode<T>.ConstructIdealTree(this.Capacity);
-                    if (this._root != null)
-                    {
-                        this._root.Fill(elementsQueue.Count, elementsQueue);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Error: Cannot set Capacity to be less than Count");
-                }
-            }
-        }
-
-        public bool IsReadOnly => throw new NotImplementedException();
 
         public IdealBinaryTree()
         {
             this._capacity = 0;
             this.Count = 0;
-            this._root = null;
+            this.Root = null;
         }
 
         public IdealBinaryTree(int capacity)
@@ -72,19 +34,62 @@ namespace MyCollections
                 Console.WriteLine("Error: Capacity cannot be < 0. Capacity will be set to 0");
             }
 
-            this._root = TreeNode<T>.ConstructIdealTree(this.Capacity);
+            this.Root = TreeNode<T>.ConstructIdealTree(this.Capacity);
         }
 
         public IdealBinaryTree(IdealBinaryTree<T> c)
         {
             this._capacity = c.Capacity;
             this.Count = c.Count;
-            this._root = SerializationCloning.Clone(c._root);
+            this.Root = SerializationCloning.Clone(c.Root);
         }
+
+        public int Count
+        {
+            get { return this._count; }
+            private set { this._count = value; }
+        }
+
+        public int Capacity
+        {
+            get
+            {
+                return this._capacity;
+            }
+
+            set
+            {
+                if (value < 0)
+                {
+                    Console.WriteLine("Error: Capacity cannot be < 0");
+                    return;
+                }
+
+                // setting capacity to less than count won't work
+                if (value >= this.Count) 
+                {
+                    this._capacity = value;
+                    List<T> elements = this.PreOrderTraversal().ToList();
+                    Queue<T> elementsQueue = new Queue<T>(elements);
+                    this.Count = elementsQueue.Count;
+                    this.Root = TreeNode<T>.ConstructIdealTree(this.Capacity);
+                    if (this.Root != null)
+                    {
+                        this.Root.Fill(elementsQueue.Count, elementsQueue);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error: Cannot set Capacity to be less than Count");
+                }
+            }
+        }
+
+        public bool IsReadOnly => false;
 
         public static void WeakDispose(ref IdealBinaryTree<T> toBeDisposed)
         {
-            toBeDisposed._root = null;
+            toBeDisposed.Root = null;
             toBeDisposed = null;
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -97,16 +102,16 @@ namespace MyCollections
 
         public IEnumerable<T> LevelOrderTraversal()
         {
-            if (this._root == null)
+            if (this.Root == null)
             {
                 yield break;
             }
 
             TreeNode<T> currentNode = new TreeNode<T>();
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            if (this._root.WasDataModified)
+            if (this.Root.WasDataModified)
             {
-                queue.Enqueue(this._root);
+                queue.Enqueue(this.Root);
             }
 
             while (queue.Count > 0)
@@ -130,14 +135,13 @@ namespace MyCollections
         
         public IEnumerable<T> PreOrderTraversal()
         {
-            
-            if (this._root == null)
+            if (this.Root == null)
             {
                 yield break;
             }
 
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            stack.Push(this._root);
+            stack.Push(this.Root);
 
             while (stack.Count > 0)
             {
@@ -180,7 +184,7 @@ namespace MyCollections
 
             if (this.Count == 0)
             {
-                this._root.Data = element;
+                this.Root.Data = element;
                 this.Count++;
                 if (needsResizing)
                 {
@@ -192,9 +196,10 @@ namespace MyCollections
 
             TreeNode<T> currentNode = new TreeNode<T>();
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            queue.Enqueue(this._root);
+            queue.Enqueue(this.Root);
 
-            while (queue.Count > 0) // looking for a place to insert the element
+            // looking for a place to insert the element
+            while (queue.Count > 0) 
             {
                 currentNode = queue.Dequeue();
                 if (currentNode.Left != null)
@@ -237,7 +242,6 @@ namespace MyCollections
             }
         }
 
-
         public void AddRange(ICollection<T> args)
         {
             foreach (T element in args)
@@ -272,21 +276,9 @@ namespace MyCollections
             return false;
         }
 
-        private void Resize(int capacityBefore) // helper function for Add()
-        {
-            if (this.Capacity > capacityBefore)
-            {
-                this.Capacity *= 2;
-            }
-            else
-            {
-                this.Capacity = capacityBefore;
-            }
-        }
-
         public void Clear()
         {
-            this._root = null;
+            this.Root = null;
             this.Count = 0;
         }
 
@@ -305,6 +297,18 @@ namespace MyCollections
         public bool Remove(T item)
         {
             throw new NotImplementedException();
+        }
+
+        private void Resize(int capacityBefore) // helper function for Add()
+        {
+            if (this.Capacity > capacityBefore)
+            {
+                this.Capacity *= 2;
+            }
+            else
+            {
+                this.Capacity = capacityBefore;
+            }
         }
     }
 }

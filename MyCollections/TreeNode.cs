@@ -9,17 +9,10 @@ namespace MyCollections
 {
     [Serializable]
     internal class TreeNode<T>
-    {
-        
+    {  
         private T data;
         private TreeNode<T> left;
         private TreeNode<T> right;
-
-        internal bool WasDataModified // helper property to make Add() in IdealBinaryTree class possible;
-        {                             // as Capacity has to be implemented, a way to judge if a node exists
-            get;                      // or not is required (from the user's perspective a node could be a leaf)
-            set;                      // while on the inside it could be not a leaf for a certain combination
-        }                             // of Count and Capacity
 
         public TreeNode()
         {
@@ -39,7 +32,11 @@ namespace MyCollections
 
         public T Data
         {
-            get { return this.data; }
+            get
+            {
+                return this.data;
+            }
+
             set
             {
                 this.data = value;
@@ -59,6 +56,12 @@ namespace MyCollections
             set { this.right = value; }
         }
 
+        internal bool WasDataModified // helper property to make Add() in IdealBinaryTree class possible;
+        {                             // as Capacity has to be implemented, a way to judge if a node exists
+            get;                      // or not is required (from the user's perspective a node could be a leaf)
+            set;                      // while on the inside it could be not a leaf for a certain combination
+        }                             // of Count and Capacity
+
         public static TreeNode<T> ConstructIdealTree(int size)
         {
             TreeNode<T> root = null;
@@ -74,6 +77,7 @@ namespace MyCollections
             {
                 Console.WriteLine("Error: Size of the tree cannot be < 0");
             }
+
             return root;
         }
 
@@ -81,7 +85,7 @@ namespace MyCollections
         {
             if (numberOfElementsToFill > 0 && elements.Count > 0)
             {
-                int numberOfElementsToFillLeft = numberOfElementsToFill/ 2;
+                int numberOfElementsToFillLeft = numberOfElementsToFill / 2;
                 int numberOfElementsToFillRight = numberOfElementsToFill - numberOfElementsToFillLeft - 1;
                 this.Data = elements.Dequeue();
                 if (this.Left != null)
@@ -89,7 +93,7 @@ namespace MyCollections
                     this.Left.Fill(numberOfElementsToFillLeft, elements);
                 }
 
-                if(this.Right != null)
+                if (this.Right != null)
                 { 
                     this.Right.Fill(numberOfElementsToFillRight, elements);
                 }
