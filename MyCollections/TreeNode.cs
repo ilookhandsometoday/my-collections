@@ -24,15 +24,7 @@ namespace MyCollections
         public TreeNode()
         {
             this.WasDataModified = false;
-            this.Data = default(T);
-            this.Left = null;
-            this.Right = null;
-        }
-
-        public TreeNode(T d)
-        {
-            this.WasDataModified = false;
-            this.Data = d;
+            this.data = default(T);
             this.Left = null;
             this.Right = null;
         }
