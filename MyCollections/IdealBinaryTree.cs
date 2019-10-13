@@ -176,18 +176,27 @@ namespace MyCollections
 
         public void Add(T element)
         {
+            bool needsResizing = this.Capacity - this.Count > 1 || this.Capacity - this.Count == 0;
             int capacityBefore = this.Capacity;
-            if (this.Count < this.Capacity)
+            if (needsResizing)
             {
                 this.Capacity = this.Count;
             }
 
-            this.Capacity += 1; 
+            if (needsResizing)
+            {
+                this.Capacity += 1;
+            }
+
             if (this.Count == 0)
             {
                 this._root.Data = element;
                 this.Count++;
-                this.Resize(capacityBefore);
+                if (needsResizing)
+                {
+                    this.Resize(capacityBefore);
+                }
+
                 return;
             }
 
@@ -204,7 +213,11 @@ namespace MyCollections
                     {
                         currentNode.Left.Data = element;
                         this.Count++;
-                        this.Resize(capacityBefore);
+                        if (needsResizing)
+                        {
+                            this.Resize(capacityBefore);
+                        }
+
                         return;
                     }
                     else
@@ -219,7 +232,11 @@ namespace MyCollections
                     {
                         currentNode.Right.Data = element;
                         this.Count++;
-                        this.Resize(capacityBefore);
+                        if (needsResizing)
+                        {
+                            this.Resize(capacityBefore);
+                        }
+
                         return;
                     }
                     else

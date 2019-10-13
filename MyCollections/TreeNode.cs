@@ -81,7 +81,7 @@ namespace MyCollections
         {
             if (numberOfElementsToFill > 0 && elements.Count > 0)
             {
-                int numberOfElementsToFillLeft = elements.Count/ 2;
+                int numberOfElementsToFillLeft = numberOfElementsToFill/ 2;
                 int numberOfElementsToFillRight = numberOfElementsToFill - numberOfElementsToFillLeft - 1;
                 this.Data = elements.Dequeue();
                 if (this.Left != null)
