@@ -177,7 +177,7 @@ namespace MyCollections
                 if (!currentNode.Right.WasDataModified)
                 {
                     currentNode.Right.Data = element;
-                    currentNode.Left.WasDataModified = true;
+                    currentNode.Right.WasDataModified = true;
                     this.Count++;
                     return;
                 }
