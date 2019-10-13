@@ -110,7 +110,12 @@ namespace MyCollections
             }
         }
 
-        public IEnumerator<T> GetEnumerator() // preorder
+        //public IEnumerable<T> InOrderTraversal()
+        //{
+
+        //}
+
+        public IEnumerator<T> GetEnumerator() //TODO rewrite as inorder
         {
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
             if (this._root != null && this._root.WasDataModified)
@@ -161,29 +166,34 @@ namespace MyCollections
             while (queue.Count > 0) // looking for a place to insert the element
             {
                 currentNode = queue.Dequeue();
+                if (currentNode.Left != null)
+                {
+                    if (!currentNode.Left.WasDataModified)
+                    {
+                        currentNode.Left.Data = element;
+                        currentNode.Left.WasDataModified = true;
+                        this.Count++;
+                        return;
+                    }
+                    else
+                    {
+                        queue.Enqueue(currentNode.Left);
+                    }
+                }
 
-                if (!currentNode.Left.WasDataModified)
+                if (currentNode.Right != null)
                 {
-                    currentNode.Left.Data = element;
-                    currentNode.Left.WasDataModified = true;
-                    this.Count++;
-                    return;
-                }
-                else
-                {
-                    queue.Enqueue(currentNode.Left);
-                }
-
-                if (!currentNode.Right.WasDataModified)
-                {
-                    currentNode.Right.Data = element;
-                    currentNode.Right.WasDataModified = true;
-                    this.Count++;
-                    return;
-                }
-                else
-                {
-                    queue.Enqueue(currentNode.Right);
+                    if (!currentNode.Right.WasDataModified)
+                    {
+                        currentNode.Right.Data = element;
+                        currentNode.Right.WasDataModified = true;
+                        this.Count++;
+                        return;
+                    }
+                    else
+                    {
+                        queue.Enqueue(currentNode.Right);
+                    }
                 }
             }
         }
