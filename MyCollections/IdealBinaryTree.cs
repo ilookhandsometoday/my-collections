@@ -93,7 +93,11 @@ namespace MyCollections
 
             TreeNode<T> currentNode = new TreeNode<T>();
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
-            queue.Enqueue(this._root);
+            if (this._root.WasDataModified)
+            {
+                queue.Enqueue(this._root);
+            }
+
             while (queue.Count > 0)
             {
                 currentNode = queue.Dequeue();
@@ -114,7 +118,7 @@ namespace MyCollections
         public IEnumerator<T> GetEnumerator() // preorder
         {
             Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            if (this._root != null)
+            if (this._root != null && this._root.WasDataModified)
             {
                 stack.Push(this._root);
             }
