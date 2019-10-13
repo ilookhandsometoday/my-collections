@@ -182,7 +182,7 @@ namespace MyCollections
                 this.Capacity = this.Count;
             }
 
-            this.Capacity += 1; // in case Capacity is 0;
+            this.Capacity += 1; 
             if (this.Count == 0)
             {
                 this._root.Data = element;
