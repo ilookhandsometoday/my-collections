@@ -9,7 +9,7 @@ using DeepCloning;
 namespace MyCollections
 {
     [Serializable]
-    public class IdealBinaryTree<T> : ICloneable, IEnumerable<T>
+    public class IdealBinaryTree<T> : ICloneable, ICollection<T>
     {
         internal TreeNode<T> _root;
         private int _count;
@@ -51,6 +51,8 @@ namespace MyCollections
             }
         }
 
+        public bool IsReadOnly => throw new NotImplementedException();
+
         public IdealBinaryTree()
         {
             this._capacity = 0;
@@ -78,6 +80,14 @@ namespace MyCollections
             this._capacity = c.Capacity;
             this.Count = c.Count;
             this._root = SerializationCloning.Clone(c._root);
+        }
+
+        public static void WeakDispose(ref IdealBinaryTree<T> toBeDisposed)
+        {
+            toBeDisposed._root = null;
+            toBeDisposed = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         public object Clone()
@@ -120,20 +130,23 @@ namespace MyCollections
         
         public IEnumerable<T> PreOrderTraversal()
         {
-            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            if (this._root != null && this._root.WasDataModified)
+            
+            if (this._root == null)
             {
-                stack.Push(this._root);
+                yield break;
             }
+
+            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+            stack.Push(this._root);
 
             while (stack.Count > 0)
             {
-                for (TreeNode<T> currentElement = stack.Pop(); currentElement != null && currentElement.WasDataModified; currentElement = currentElement.Left)
+                for (TreeNode<T> currentNode = stack.Pop(); currentNode != null && currentNode.WasDataModified; currentNode = currentNode.Left)
                 {
-                    yield return currentElement.Data;
-                    if (currentElement.Right != null && currentElement.Right.WasDataModified)
+                    yield return currentNode.Data;
+                    if (currentNode.Right != null && currentNode.Right.WasDataModified)
                     {
-                        stack.Push(currentElement.Right);
+                        stack.Push(currentNode.Right);
                     }
                 }
             }
@@ -141,32 +154,9 @@ namespace MyCollections
             yield break;
         }
 
-        //public IEnumerable<T> InOrderTraversal()
-        //{
-
-        //}
-
-        public IEnumerator<T> GetEnumerator() //TODO rewrite as inorder
+        public IEnumerator<T> GetEnumerator()
         {
-            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
-            if (this._root != null && this._root.WasDataModified)
-            {
-                stack.Push(this._root);
-            }
-
-            while (stack.Count > 0)
-            {
-                for (TreeNode<T> currentElement = stack.Pop(); currentElement != null && currentElement.WasDataModified; currentElement = currentElement.Left)
-                {
-                    yield return currentElement.Data;
-                    if (currentElement.Right != null && currentElement.Right.WasDataModified)
-                    {
-                        stack.Push(currentElement.Right);
-                    }
-                }
-            }
-
-            yield break;
+            return this.LevelOrderTraversal().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -256,6 +246,32 @@ namespace MyCollections
             }
         }
 
+        public bool Contains(T element)
+        {
+            if (element == null)
+            {
+                foreach (T entry in this)
+                {
+                    if (entry == null)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                foreach (T entry in this)
+                {
+                    if (entry.Equals(element))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private void Resize(int capacityBefore) // helper function for Add()
         {
             if (this.Capacity > capacityBefore)
@@ -266,6 +282,29 @@ namespace MyCollections
             {
                 this.Capacity = capacityBefore;
             }
+        }
+
+        public void Clear()
+        {
+            this._root = null;
+            this.Count = 0;
+        }
+
+        public IdealBinaryTree<T> ShallowCopy()
+        {
+            IdealBinaryTree<T> clone = new IdealBinaryTree<T>(this.Count);
+            clone.AddRange(this.PreOrderTraversal().ToArray());
+            return clone;
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(T item)
+        {
+            throw new NotImplementedException();
         }
     }
 }
