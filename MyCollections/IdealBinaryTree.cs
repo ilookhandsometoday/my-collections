@@ -32,15 +32,21 @@ namespace MyCollections
                     return;
                 }
 
-                if(value < this._capacity)
-                {
-                    this._capacity = value;
+                this._capacity = value;
+                List<T> elements = this.LevelOrderTraversal().ToList();
+                if (value < this._capacity)
+                { 
+                    if (value < this.Count)
+                    {
+                        elements.RemoveRange(value, this.Count - value);
+                        this.Count = value;
+                    }
+
+
                 }
 
-                if (value > this._capacity)
-                {
-
-                }
+                this._root = TreeNode<T>.ConstructIdealTree(this._capacity);
+                this.AddRange(elements);
             }
         }
 
@@ -78,7 +84,7 @@ namespace MyCollections
             return new IdealBinaryTree<T>(this);
         }
 
-        private IEnumerable<T> LevelOrderTraversal()
+        public IEnumerable<T> LevelOrderTraversal()
         {
             if (this._root == null)
             {
@@ -183,23 +189,12 @@ namespace MyCollections
             }
         }
 
-        public void AddRange(List<T> args)
+        public void AddRange(ICollection<T> args)
         {
             foreach(T element in args)
             {
                 this.Add(element);
             }
-        }
-
-        public Queue<T> ToQueueLevelOrder()
-        {
-            Queue<T> queue = new Queue<T>();
-            foreach(T element in this.LevelOrderTraversal())
-            {
-                queue.Enqueue(element);
-            }
-
-            return queue;
         }
     }
 }
