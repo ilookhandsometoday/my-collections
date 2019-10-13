@@ -99,12 +99,12 @@ namespace MyCollections
                 currentNode = queue.Dequeue();
                 yield return currentNode.Data;
 
-                if (currentNode.Left != null && !currentNode.Left.WasDataModified)
+                if (currentNode.Left != null && currentNode.Left.WasDataModified)
                 {
                     queue.Enqueue(currentNode.Left);
                 }
 
-                if (currentNode.Right != null && !currentNode.Right.WasDataModified)
+                if (currentNode.Right != null && currentNode.Right.WasDataModified)
                 {
                     queue.Enqueue(currentNode.Right);
                 }
