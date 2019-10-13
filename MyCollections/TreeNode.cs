@@ -29,6 +29,14 @@ namespace MyCollections
             this.Right = null;
         }
 
+        public TreeNode(T d)
+        {
+            this.WasDataModified = true;
+            this.data = d;
+            this.Left = null;
+            this.Right = null;
+        }
+
         public T Data
         {
             get { return this.data; }
@@ -60,6 +68,32 @@ namespace MyCollections
                 root = new TreeNode<T>();
                 root.Left = TreeNode<T>.ConstructIdealTree(sizeLeft);
                 root.Right = TreeNode<T>.ConstructIdealTree(sizeRight);
+            }
+            else if (size < 0)
+            {
+                Console.WriteLine("Error: Size of the tree cannot be < 0");
+            }
+            return root;
+        }
+
+        public static TreeNode<T> ConstructIdealTree(int size, Queue<T> elements) // helper method for resizing
+        {
+            TreeNode<T> root = null;
+            if (size > 0)
+            {
+                int sizeLeft = size / 2;
+                int sizeRight = size - sizeLeft - 1;
+                if (elements.Count > 0)
+                {
+                    root = new TreeNode<T>(elements.Dequeue());
+                }
+                else
+                {
+                    root = new TreeNode<T>();
+                }
+
+                root.Left = TreeNode<T>.ConstructIdealTree(sizeLeft, elements);
+                root.Right = TreeNode<T>.ConstructIdealTree(sizeRight, elements);
             }
             else if (size < 0)
             {

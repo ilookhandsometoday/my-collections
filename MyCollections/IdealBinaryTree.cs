@@ -39,9 +39,9 @@ namespace MyCollections
                     elements.RemoveRange(value, this.Count - value);
                 }
 
-                this.Count = 0;
-                this._root = TreeNode<T>.ConstructIdealTree(this._capacity);
-                this.AddRange(elements);
+                Queue<T> elementsQueue = new Queue<T>(elements);
+                this.Count = elementsQueue.Count;
+                this._root = TreeNode<T>.ConstructIdealTree(this._capacity, elementsQueue);
             }
         }
 
@@ -145,12 +145,13 @@ namespace MyCollections
 
         public void Add(T element)
         {
-            if (this.Count == this.Capacity)
+            int capacityBefore = this.Capacity;
+            if (this.Count < this.Capacity)
             {
-                this.Capacity += 1; // in case Capacity is 0;
-                this.Capacity *= 2;
+                this.Capacity = this.Count;
             }
 
+            this.Capacity += 1; // in case Capacity is 0;
             if (this.Count == 0)
             {
                 this._root.Data = element;
@@ -181,6 +182,7 @@ namespace MyCollections
                     }
                 }
 
+
                 if (currentNode.Right != null)
                 {
                     if (!currentNode.Right.WasDataModified)
@@ -196,7 +198,17 @@ namespace MyCollections
                     }
                 }
             }
+
+            if (this.Capacity > capacityBefore)
+            {
+                this.Capacity *= 2;
+            }
+            else
+            {
+                this.Capacity = capacityBefore;
+            }
         }
+
 
         public void AddRange(ICollection<T> args)
         {
