@@ -32,6 +32,7 @@ namespace MyCollections
             else
             {
                 Console.WriteLine("Error: Capacity cannot be < 0. Capacity will be set to 0");
+                this._capacity = 0;
             }
 
             this.Root = TreeNode<T>.ConstructIdealTree(this.Capacity);
@@ -102,7 +103,7 @@ namespace MyCollections
 
         public IEnumerable<T> LevelOrderTraversal()
         {
-            if (this.Root == null)
+            if (this.Root == null) 
             {
                 yield break;
             }
