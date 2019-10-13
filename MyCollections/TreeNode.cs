@@ -99,5 +99,31 @@ namespace MyCollections
                 }
             }
         }
+
+        public void Show(string indent, bool last, string location)
+        {
+            if (this != null && this.WasDataModified)
+            {
+                Console.WriteLine($"{indent}+----{location}:({this.Data})");
+                indent += last ? "     " : "|    ";
+                if ((this.Left != null && this.Left.WasDataModified) && (this.Right != null && this.Right.WasDataModified))
+                {
+                    this.Right.Show(indent, false, "R");
+                    this.Left.Show(indent, true, "L");
+                }
+                else if ((this.Left != null && this.Left.WasDataModified) && (this.Right == null || !this.Right.WasDataModified))
+                {
+                    this.Left.Show(indent, true, "L");
+                }
+                else if ((this.Left == null || !this.Right.WasDataModified) && (this.Right != null && this.Left.WasDataModified))
+                {
+                    this.Right.Show(indent, true, "R");
+                }
+            }
+            else
+            {
+                Console.WriteLine("The tree you are trying to print out is empty");
+            }
+        }
     }
 }

@@ -310,5 +310,10 @@ namespace MyCollections
                 this.Capacity = capacityBefore;
             }
         }
+
+        public void Show()
+        {
+            this.Root.Show("", true, "ROOT");
+        }
     }
 }
