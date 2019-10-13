@@ -43,6 +43,7 @@ namespace MyCollections
             set
             {
                 this.data = value;
+                this.WasDataModified = true;
             }
         }
 
@@ -78,7 +79,7 @@ namespace MyCollections
 
         public void Fill(int numberOfElementsToFill, Queue<T> elements) // helper method for resizing the IdealBinaryTree
         {
-            if (numberOfElementsToFill > 0)
+            if (numberOfElementsToFill > 0 && elements.Count > 0)
             {
                 int numberOfElementsToFillLeft = elements.Count/ 2;
                 int numberOfElementsToFillRight = numberOfElementsToFill - numberOfElementsToFillLeft - 1;

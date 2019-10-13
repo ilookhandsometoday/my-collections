@@ -186,8 +186,8 @@ namespace MyCollections
             if (this.Count == 0)
             {
                 this._root.Data = element;
-                this._root.WasDataModified = true;
                 this.Count++;
+                this.Resize(capacityBefore);
                 return;
             }
 
@@ -203,8 +203,8 @@ namespace MyCollections
                     if (!currentNode.Left.WasDataModified)
                     {
                         currentNode.Left.Data = element;
-                        currentNode.Left.WasDataModified = true;
                         this.Count++;
+                        this.Resize(capacityBefore);
                         return;
                     }
                     else
@@ -213,14 +213,13 @@ namespace MyCollections
                     }
                 }
 
-
                 if (currentNode.Right != null)
                 {
                     if (!currentNode.Right.WasDataModified)
                     {
                         currentNode.Right.Data = element;
-                        currentNode.Right.WasDataModified = true;
                         this.Count++;
+                        this.Resize(capacityBefore);
                         return;
                     }
                     else
@@ -228,15 +227,6 @@ namespace MyCollections
                         queue.Enqueue(currentNode.Right);
                     }
                 }
-            }
-
-            if (this.Capacity > capacityBefore)
-            {
-                this.Capacity *= 2;
-            }
-            else
-            {
-                this.Capacity = capacityBefore;
             }
         }
 
@@ -246,6 +236,18 @@ namespace MyCollections
             foreach (T element in args)
             {
                 this.Add(element);
+            }
+        }
+
+        private void Resize(int capacityBefore) // helper function for Add()
+        {
+            if (this.Capacity > capacityBefore)
+            {
+                this.Capacity *= 2;
+            }
+            else
+            {
+                this.Capacity = capacityBefore;
             }
         }
     }
