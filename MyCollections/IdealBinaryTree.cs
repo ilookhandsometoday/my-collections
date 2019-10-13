@@ -104,7 +104,7 @@ namespace MyCollections
                     queue.Enqueue(currentNode.Left);
                 }
 
-                if (currentNode.Left != null && !currentNode.Right.WasDataModified)
+                if (currentNode.Right != null && !currentNode.Right.WasDataModified)
                 {
                     queue.Enqueue(currentNode.Right);
                 }
