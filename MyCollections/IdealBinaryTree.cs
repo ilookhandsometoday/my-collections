@@ -32,16 +32,22 @@ namespace MyCollections
                     return;
                 }
 
-                this._capacity = value;
-                List<T> elements = this.LevelOrderTraversal().ToList();
-                if (value < this._capacity && value < this.Count)
+                if (value >= Count) //setting capacity to less than count won't work
                 {
-                    elements.RemoveRange(value, this.Count - value);
+                    this._capacity = value;
+                    List<T> elements = this.PreOrderTraversal().ToList();
+                    Queue<T> elementsQueue = new Queue<T>(elements);
+                    this.Count = elementsQueue.Count;
+                    this._root = TreeNode<T>.ConstructIdealTree(this.Capacity);
+                    if (this._root != null)
+                    {
+                        this._root.Fill(elementsQueue.Count, elementsQueue);
+                    }
                 }
-
-                Queue<T> elementsQueue = new Queue<T>(elements);
-                this.Count = elementsQueue.Count;
-                this._root = TreeNode<T>.ConstructIdealTree(this._capacity, elementsQueue);
+                else
+                {
+                    Console.WriteLine("Error: Cannot set Capacity to be less than Count");
+                }
             }
         }
 
@@ -108,6 +114,31 @@ namespace MyCollections
                     queue.Enqueue(currentNode.Right);
                 }
             }
+
+            yield break;
+        }
+        
+        public IEnumerable<T> PreOrderTraversal()
+        {
+            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
+            if (this._root != null && this._root.WasDataModified)
+            {
+                stack.Push(this._root);
+            }
+
+            while (stack.Count > 0)
+            {
+                for (TreeNode<T> currentElement = stack.Pop(); currentElement != null && currentElement.WasDataModified; currentElement = currentElement.Left)
+                {
+                    yield return currentElement.Data;
+                    if (currentElement.Right != null && currentElement.Right.WasDataModified)
+                    {
+                        stack.Push(currentElement.Right);
+                    }
+                }
+            }
+
+            yield break;
         }
 
         //public IEnumerable<T> InOrderTraversal()

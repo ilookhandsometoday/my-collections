@@ -76,49 +76,22 @@ namespace MyCollections
             return root;
         }
 
-        public static TreeNode<T> ConstructIdealTree(int size, Queue<T> elements) // helper method for resizing
+        public void Fill(int numberOfElementsToFill, Queue<T> elements) // helper method for resizing the IdealBinaryTree
         {
-            TreeNode<T> root = null;
-            if (size > 0)
+            if (numberOfElementsToFill > 0)
             {
-                int sizeLeft = size / 2;
-                int sizeRight = size - sizeLeft - 1;
-                if (elements.Count > 0)
-                {
-                    root = new TreeNode<T>(elements.Dequeue());
-                }
-                else
-                {
-                    root = new TreeNode<T>();
-                }
-
-                root.Left = TreeNode<T>.ConstructIdealTree(sizeLeft, elements);
-                root.Right = TreeNode<T>.ConstructIdealTree(sizeRight, elements);
-            }
-            else if (size < 0)
-            {
-                Console.WriteLine("Error: Size of the tree cannot be < 0");
-            }
-            return root;
-        }
-
-        public int Height
-        {
-            get
-            {
-                int heightLeft = 0;
-                int heightRight = 0;
+                int numberOfElementsToFillLeft = elements.Count/ 2;
+                int numberOfElementsToFillRight = numberOfElementsToFill - numberOfElementsToFillLeft - 1;
+                this.Data = elements.Dequeue();
                 if (this.Left != null)
                 {
-                    heightLeft = this.Left.Height;
+                    this.Left.Fill(numberOfElementsToFillLeft, elements);
                 }
 
-                if (this.Right != null)
-                {
-                    heightRight = this.Right.Height;
+                if(this.Right != null)
+                { 
+                    this.Right.Fill(numberOfElementsToFillRight, elements);
                 }
-
-                return Math.Max(heightLeft, heightRight) + 1;
             }
         }
     }
