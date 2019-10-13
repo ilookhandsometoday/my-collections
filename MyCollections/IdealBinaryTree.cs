@@ -17,8 +17,8 @@ namespace MyCollections
 
         public int Count
         {
-            get {return this._count; }
-            private set { this._count = value;}
+            get { return this._count; }
+            private set { this._count = value; }
         }
 
         public int Capacity
@@ -34,17 +34,12 @@ namespace MyCollections
 
                 this._capacity = value;
                 List<T> elements = this.LevelOrderTraversal().ToList();
-                if (value < this._capacity)
-                { 
-                    if (value < this.Count)
-                    {
-                        elements.RemoveRange(value, this.Count - value);
-                        this.Count = value;
-                    }
-
-
+                if (value < this._capacity && value < this.Count)
+                {
+                    elements.RemoveRange(value, this.Count - value);
                 }
 
+                this.Count = 0;
                 this._root = TreeNode<T>.ConstructIdealTree(this._capacity);
                 this.AddRange(elements);
             }
@@ -144,8 +139,8 @@ namespace MyCollections
         }
 
         public void Add(T element)
-        { 
-            if(this.Count == this.Capacity)
+        {
+            if (this.Count == this.Capacity)
             {
                 this.Capacity += 1; // in case Capacity is 0;
                 this.Capacity *= 2;
@@ -163,7 +158,7 @@ namespace MyCollections
             Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
             queue.Enqueue(this._root);
 
-            while(queue.Count > 0) // looking for a place to insert the element
+            while (queue.Count > 0) // looking for a place to insert the element
             {
                 currentNode = queue.Dequeue();
 
@@ -195,7 +190,7 @@ namespace MyCollections
 
         public void AddRange(ICollection<T> args)
         {
-            foreach(T element in args)
+            foreach (T element in args)
             {
                 this.Add(element);
             }
